@@ -34,24 +34,21 @@ sudo systemctl restart httpd
 Instala o cliente de base de dados MariaDB:
 sudo yum install mariadb
 
-## 7 - Transferir os Arquivos do Website do S3 para EC2
+## 7 - Transferir os Arquivos da base de dados do S3 para EC2
+Faz o download dos arquivos do website a partir do S3 para a instância EC2:
+aws s3 sync s3://ec2-backup-bucket01/wordpressdb.sql/ /home/ec2-user
+
+## 8 - Transferir os Arquivos do Website do S3 para EC2
 Faz o download dos arquivos do website a partir do S3 para a instância EC2:
 aws s3 sync s3://ec2-backup-bucket01/website-backup/ /home/ec2-user
 
-## 8 - Transferir o Dump da Base de Dados para o RDS
-Carrega o dump da base de dados para o RDS:
-
+## 9 - Transferir o Dump da Base de Dados para o RDS
 mysql -h demo-database001.crhrnvptqdno.us-east-1.rds.amazonaws.com -u admin -p wordpredb < wordpressdb.sql
 
-## 9 - Descompactar os Arquivos do Website e Mover para o Diretório Apache
-Descompacta os arquivos do website e move-os para o diretório /var/www/html/:
+## 10 - Descompactar os Arquivos do Website e Mover para o Diretório Apache
 
 tar xvf community_images.tar.gz
 cd html
 sudo vi wp-config.php
 sudo mv html/* /var/www/html/
 
-10 - Criar uma Nova Base de Dados e Utilizador no RDS
-Se necessário, cria uma nova base de dados e utilizador no RDS:
-11 - Restaurar a Base de Dados no Novo RDS
-mysql -h horizontaldb.crhrnvptqdno.us-east-1.rds.amazonaws.com -p 3306 -u admin -p horizontaldb < wordpressdb.sql
